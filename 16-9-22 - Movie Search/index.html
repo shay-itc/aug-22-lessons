@@ -30,9 +30,19 @@
                     top: 60px;
                     left: 10%;
                     background-color: #fff;
-                    /* display: none; */
+                    display: none;
                     border: 2px solid #333;
                 }
+
+                .film-year{
+                    font-size: 14px;
+                }
+
+                .image {
+                    height: 100%;
+                    width: 100%;
+                }
+                
             </style>
     </head>
     <body>
@@ -54,11 +64,25 @@
         </div>
 
         <div class="modal-container" id="modal-container">
-            <div class="row">
-                <div class="col-9">
-                    asdasd
+            <div class="row h-100">
+                <div class="col-9 p-4">
+                    <div class="d-flex align-items-center">
+                        <h2 id="movieTitle"></h2>
+                        <span id="releaseYear" class="p-2 film-year"></span>
+                    </div>
+                    <h6 id="movieDirector"></h6>
+                    <h6 id="moviePlot"></h6>
+
+                    <h4 class="mt-4">Ratings</h4>
+                    <ul id="ratings-list"></ul>
+                    <h6></h6>
+
+
+<button type="button" id="closeButton" class="btn btn-outline-danger">Close</button>
                 </div>
                 <div class="col-3">
+                    <div class="image" id="img"> </div>
+            
                 </div>
             </div>
         </div>

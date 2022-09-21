@@ -36,6 +36,7 @@ class Movie {
   async cardClicked() {
     console.log("cardClicked", this.title);
 
+
     if (!this.data) {
       console.log("Send request");
       this.data = await this.getMovieData();
@@ -43,6 +44,28 @@ class Movie {
 
     const modal = document.getElementById("modal-container");
     modal.style.display = "block";
+    console.log(this.data)
+
+    document.getElementById('movieTitle').innerHTML    = this.data.Title;
+    document.getElementById('releaseYear').innerText   = this.data.Released;
+    document.getElementById('movieDirector').innerHTML = this.data.Director;
+    document.getElementById('moviePlot').innerHTML     = this.data.Plot;
+
+    const posterDiv = document.getElementById('img');
+    posterDiv.style.backgroundImage = `url('${this.poster}')`;
+    posterDiv.style.backgroundRepeat = `no-repeat`;
+    // const cardImg = document.createElement("img");
+    // cardImg.setAttribute("src", this.poster);
+    // posterDiv.appendChild(cardImg)
+
+
+    const ratingList = document.getElementById('ratings-list');
+    this.data.Ratings.forEach(element => {
+      const rating = document.createElement("h6");
+      rating.innerHTML = element.Source + ": " + element.Value;
+      ratingList.appendChild(rating);
+    });
+
   }
 
   async getMovieData() {
@@ -85,7 +108,7 @@ class MovieSearcher {
         "&type=" +
         this.searchType +
         "&s=" +
-        this.searchQuery +
+        encodeURIComponent(this.searchQuery) +
         "&page=" +
         this.page;
 
@@ -105,6 +128,8 @@ class MovieSearcher {
 
     const results = await this.getMovies();
 
+    if(!results) return;
+
     const container = document.getElementById("movies-container");
 
     const movieObjects = [];
@@ -118,25 +143,13 @@ class MovieSearcher {
   }
 }
 
-let movieSearcher = null;
+let movieSearcherInstance = null;
 window.onload = () => {
-  movieSearcher = new MovieSearcher();
+  movieSearcherInstance = new MovieSearcher();
+  const closeButton = document.getElementById("closeButton")
+  closeButton.addEventListener("click", (e) => {
+    const modal = document.getElementById("modal-container")
+    modal.style.display = "none"
+  })
 };
 
-// https://www.omdbapi.com/?
-// apikey=87dd0709&
-// type=movie
-// &s=the%20lord%20of&
-// page=2
-
-const varA = true;
-
-function myFunc() {
-  if (varA == true) {
-    console.log("Equals true");
-  } else {
-    console.log("Equals false");
-  }
-}
-
-myFunc();
