@@ -1,0 +1,14 @@
+.form-control {
+    width: 100px
+}
+
+.alert.alert-danger {
+    padding: 5px;
+    width: 180px;
+    margin-left: 60px;
+    display: none;
+}
+
+#fibonacci-result {
+    font-weight: bolder;
+}
