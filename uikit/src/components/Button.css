@@ -1,0 +1,17 @@
+.uikit-custom-button {
+    border: 2px solid rgb(30, 30, 156);
+    background-color: rgb(50, 50, 182);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.uikit-custom-button.primary {
+    border: 2px solid rgb(0, 116, 54);
+    background-color: rgb(49, 196, 69);
+}
+
+.uikit-custom-button.danger {
+    border: 2px solid rgb(116, 0, 0);
+    background-color: rgb(178, 48, 67);
+}
