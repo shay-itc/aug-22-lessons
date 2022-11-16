@@ -1,1 +1,27 @@
 .App {}
+
+.navbar {
+    height: 40px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    ;
+}
+
+.navbar .item {
+    margin: 0px 20px;
+    padding: 10px;
+}
+
+.navbar .item a {
+    color: #000;
+}
+
+.navbar .item:hover {
+    background-color: #c3c3c3;
+}
+
+.main-container {
+    padding: 10px;
+}

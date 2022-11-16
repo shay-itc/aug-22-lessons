@@ -14,7 +14,7 @@ function TextInput(props) {
     const [inputValue, setInputValue] = useState(defaultValue);
 
     let showError = false;
-    if (inputValue.length < minimumChars) {
+    if (inputValue && minimumChars && inputValue.length < minimumChars) {
         showError = true;
     }
 
