@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import './App.css';
 import Navbar from "./components/Navbar"
 import Movie from './components/Movie';
-
+import Login from './views/Login';
 
 function App() {
 
   const [movies, setMovies] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
 
+
   const getSearchTerm = async (term) => {
     setSearchTerm(term);
     const fetched = await fetch(`https://www.omdbapi.com/?apikey=87dd0709&type=movie&s=${term}`)
     const response = await fetched.json()
 
-    setMovies(response.Search)
+    // setMovies(response.Search)
   }
 
   const showMovies = () => {
@@ -39,12 +41,24 @@ function App() {
 
   return (
     <div className="App">
-      <div className="container">
+      {/* <div className="container">
         <Navbar onSearch={getSearchTerm} />
         {showMovies()}
-      </div>
+      </div> */}
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/search/:term' element={<div>Search</div>} />
+        <Route path='/movie/:id' element={<div>Movie</div>} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+
+// Add the router to the project
+// create 3 routes
+// Login
+// Search - also add the search terms as param
+// Movie - also add the movie id as param

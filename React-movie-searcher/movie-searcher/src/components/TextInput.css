@@ -1,0 +1,26 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-input {
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 200px;
+    /* display: block; */
+}
+
+.error-message {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.input-label {
+    font-size: 0.9rem;
+    padding-bottom: 5px;
+    text-align: left;
+    ;
+    /* display: block; */
+}
