@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import './TextInput.css'
 
@@ -12,6 +13,10 @@ function TextInput(props) {
     } = props;
 
     const [inputValue, setInputValue] = useState(defaultValue);
+
+    useEffect(() => {
+        setInputValue(defaultValue);
+    }, [defaultValue])
 
     let showError = false;
     if (inputValue && minimumChars && inputValue.length < minimumChars) {

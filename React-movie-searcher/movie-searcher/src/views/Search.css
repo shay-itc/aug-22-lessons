@@ -1,0 +1,10 @@
+.search-container {
+    text-align: center;
+    margin-top: 100px;
+    width: 100%;
+}
+
+.inner-search {
+    width: 200px;
+    margin: 0px auto;
+}

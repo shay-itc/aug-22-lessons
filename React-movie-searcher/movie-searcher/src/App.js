@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
 import './App.css';
 import Navbar from "./components/Navbar"
+import Search from './views/Search';
 import Movie from './components/Movie';
 import Login from './views/Login';
 
@@ -9,7 +10,6 @@ function App() {
 
   const [movies, setMovies] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
-
 
   const getSearchTerm = async (term) => {
     setSearchTerm(term);
@@ -47,12 +47,17 @@ function App() {
       </div> */}
       <Routes>
         <Route path='/login' element={<Login />} />
-        <Route path='/search/:term' element={<div>Search</div>} />
-        <Route path='/movie/:id' element={<div>Movie</div>} />
+        <Route path='/search'>
+          <Route path=':term' element={<Search />} />
+          <Route path='' element={<Search />} />
+        </Route>
+        <Route path='*' element={<Login />} />
       </Routes>
     </div>
   );
 }
+
+//search/batman
 
 export default App;
 
