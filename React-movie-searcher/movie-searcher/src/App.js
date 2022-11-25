@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar"
 import Search from './views/Search';
 import Login from './views/Login';
 import Movie from './views/Movie';
+import Reducer from './views/Reducer';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path='' element={<Search />} />
         </Route>
         <Route path='/movie/:id' element={<Movie />} />
+        <Route path='/reducer' element={<Reducer />} />
         <Route path='*' element={<Login />} />
       </Routes>
     </div>

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
 import MovieItem from '../components/MovieItem';
@@ -10,6 +10,7 @@ import { getMovies } from '../helpers/api';
 function Search() {
 
     const { term } = useParams();
+    const navigate = useNavigate()
 
     const { authApiKey } = useContext(AuthContext);
 
@@ -18,9 +19,9 @@ function Search() {
 
     const fetchFromAPI = async () => {
         const results = await getMovies(authApiKey, movieName);
-        console.log(results)
         if (results.success) {
             setMovieList(results.results);
+            navigate("/search/" + movieName)
         } else {
             alert(results.message)
         }
@@ -28,7 +29,6 @@ function Search() {
 
     const renderMovieList = () => {
         return movieList.map((movie, index) => {
-            console.log('movie', movie)
             return (<MovieItem
                 key={`movie-item-${index}`}
                 title={movie.Title}
