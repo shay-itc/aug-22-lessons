@@ -1,0 +1,8 @@
+.movie-item {
+    width: 150px;
+    margin: 20px;
+}
+
+.movie-item img {
+    width: 100%;
+}

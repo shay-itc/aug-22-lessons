@@ -5,7 +5,7 @@ export async function getMovies(apiKey, movieName) {
 
         if (results.Response == 'True') {
             return {
-                sucess: true,
+                success: true,
                 results: results.Search
             };
         } else {

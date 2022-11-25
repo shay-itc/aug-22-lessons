@@ -2,9 +2,16 @@
     text-align: center;
     margin-top: 100px;
     width: 100%;
+    position: relative;
 }
 
 .inner-search {
     width: 200px;
     margin: 0px auto;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

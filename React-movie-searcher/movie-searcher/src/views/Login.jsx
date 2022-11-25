@@ -9,6 +9,8 @@ function Login() {
 
     const { authApiKey, setAuthApiKey, authName, setAuthName } = useContext(AuthContext);
 
+    console.log('authApiKey', authApiKey, 'authName', authName)
+
     const [name, setName] = useState(authName);
     const [apiKey, setApiKey] = useState(authApiKey);
 
@@ -18,7 +20,7 @@ function Login() {
         setAuthApiKey(apiKey)
         setAuthName(name)
 
-        navigate('/search')
+        navigate('/search/default')
     }
 
     useEffect(() => {
@@ -59,3 +61,4 @@ export default Login;
 
 // Get deafult values from localforage to the auth context
 // from the auth context set the default values to the login form
+

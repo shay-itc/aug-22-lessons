@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
+import MovieItem from '../components/MovieItem';
 import "./Search.css";
 import { AuthContext } from '../context/AuthContext';
 import { getMovies } from '../helpers/api';
@@ -17,11 +18,23 @@ function Search() {
 
     const fetchFromAPI = async () => {
         const results = await getMovies(authApiKey, movieName);
+        console.log(results)
         if (results.success) {
-            setMovieList(results);
+            setMovieList(results.results);
         } else {
             alert(results.message)
         }
+    }
+
+    const renderMovieList = () => {
+        return movieList.map((movie, index) => {
+            console.log('movie', movie)
+            return (<MovieItem
+                key={`movie-item-${index}`}
+                title={movie.Title}
+                image={movie.Poster}
+                movieId={movie.imdbID} />)
+        })
     }
 
     return (
@@ -40,6 +53,12 @@ function Search() {
                 }} />
 
             </div>
+            <div className='search-results'>
+                {
+                    movieList.length > 0 ? renderMovieList() : null
+                }
+            </div>
+
         </div>
     )
 }
@@ -48,3 +67,4 @@ export default Search;
 
 // Using the movie list in the state display the 
 // list posters under the search form
+
