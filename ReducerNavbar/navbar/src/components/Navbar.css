@@ -1,0 +1,37 @@
+.navbar {
+    width: 100vw;
+    height: 60px;
+    background-color: #e3e3e3;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar .menu-item {
+    height: 100%;
+    padding: 0px 20px;
+    line-height: 55px;
+    position: relative;
+}
+
+.navbar .menu-item .submenu-item {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    background-color: #333;
+}
+
+.navbar .menu-item .submenu-item ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar .menu-item .submenu-item ul li {
+    padding: 0px 10px;
+}
+
+.navbar .menu-button {
+    height: 30px;
+    margin-top: 15px;
+    margin-right: 10px;
+}
