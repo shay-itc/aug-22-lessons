@@ -1,40 +1,76 @@
+import { useEffect, useState } from "react";
 import { useReducer } from "react"
 import "./Navbar.css"
 
 function NavnarReducer(state, action) {
 
-    console.log('state before', JSON.stringify(state))
+    console.log('action', action)
     switch (action.type) {
         case 'addItem':
             state.itemsList.push({ title: 'New Item' });
-            console.log('state after', state)
             return { ...state };
         case "toggleTheme":
-            console.log('theme before', state.theme)
             state.theme = state.theme == 'light' ? 'dark' : 'light';
-            console.log('theme after', state.theme)
+            return { ...state };
+        case "toggleSubmenu":
+            if (state.menuIndex == action.payload.index) {
+                state.menuIndex = null;
+            } else {
+                state.menuIndex = action.payload.index;
+            }
             return { ...state };
     }
 }
 
 export default function Navbar() {
 
-    const [state, dispatch] = useReducer(NavnarReducer, {
-        itemsList: [],
-        theme: 'light'
-    })
+    const [state, dispatch] = useReducer(NavnarReducer,
+        {
+            itemsList: [],
+            theme: 'light',
+            menuIndex: null
+        }
+    )
 
-    console.log('state', state)
+    console.log(state)
+
+    useEffect(() => {
+        // if (myInterval) clearInterval(myInterval)
+
+        // myInterval = setInterval(() => {
+        //     console.log('Interval')
+
+        // }, 1000)
+
+        // return () => {
+        //     clearInterval(myInterval)
+        // }
+    }, [])
+
 
     return (
         <nav className="navbar"
             style={{ backgroundColor: state.theme == 'light' ? '#e3e3e3' : '#333' }}>
 
             {
-                state.itemsList.map((item) => {
+                state.itemsList.map((item, index) => {
                     return (
-                        <div className="menu-item">
+                        <div className="menu-item" onClick={() => {
+                            dispatch({ type: 'toggleSubmenu', payload: { index } })
+                        }}>
                             {item.title}
+                            {
+                                state.menuIndex == index
+                                    ? (
+                                        <div className="submenu-item">
+                                            <ul>
+                                                <li>Sub Item</li>
+                                                <li>Sub Item</li>
+                                                <li>Sub Item</li>
+                                                <li>Sub Item</li>
+                                            </ul>
+                                        </div>) : null
+                            }
                         </div>
                     );
                 })
