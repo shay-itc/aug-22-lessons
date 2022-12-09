@@ -7,7 +7,17 @@ export default function Login() {
     const dispatch = useDispatch();
 
     const sendLogin = async () => {
-        const response = await fetch('https://pxmvw7wkhjkhkgjtvjqacajddq0lbhyz.lambda-url.us-east-1.on.aws/')
+
+        const response = await fetch('https://pxmvw7wkhjkhkgjtvjqacajddq0lbhyz.lambda-url.us-east-1.on.aws/', {
+            method: 'post',
+            headers: {
+                // "Content-Type": 'application/json'
+            },
+            data: JSON.stringify({
+                username: username.current.value,
+                password: password.current.value
+            })
+        })
         const results = await response.json();
 
         console.log(results)
@@ -21,7 +31,7 @@ export default function Login() {
         <div>
             Login
             <br />
-            <input type="text" name="username" ref={username} />
+            <input type="text" ref={username} />
             <br />
             <input type="password" ref={password} />
             <br />

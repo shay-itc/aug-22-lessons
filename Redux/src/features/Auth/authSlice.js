@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoggedIn: false,
@@ -13,10 +13,15 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.username = action.payload.username;
       state.accessToken = action.payload.accessToken;
+    },
+    logoutUser(state) {
+      state.isLoggedIn = false;
+      state.username = null;
+      state.accessToken = null;
     }
   },
 });
 
-export const { loginUser } = authSlice.actions;
+export const { loginUser, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;
