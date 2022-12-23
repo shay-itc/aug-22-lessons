@@ -1,0 +1,3 @@
+error - Fri Dec 23 2022 09:15:52 GMT+0200 (Israel Standard Time) - this is an error 
+info - Fri Dec 23 2022 09:15:52 GMT+0200 (Israel Standard Time) - this is info 
+debug - Fri Dec 23 2022 09:15:52 GMT+0200 (Israel Standard Time) - this is debug 

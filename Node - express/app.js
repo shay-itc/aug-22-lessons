@@ -1,38 +1,39 @@
-const express = require('express')
+const express = require('express');
 const bodyParser = require("body-parser");
+const fs = require('fs');
 const app = express()
-
-let counter = 0;
 
 app.use(bodyParser.json());
 
-app.get('/counter', function (req, res) {
+let notes = [];
+try {
+    const dbData = fs.readFileSync('./db.json')
+    notes = JSON.parse(dbData);
+} catch (e) {
+    console.log(e)
+}
 
-    const { multiply } = req.query
+app.post('/note', function (req, res) {
 
-    counter++;
+    const { subject, note } = req.body;
 
-    console.log('multiply', multiply)
-    console.log('counter', counter)
+    if (subject && note && subject.length > 0 && note.length > 0) {
+        notes.push({ subject, note });
+        fs.writeFileSync('./db.json', JSON.stringify(notes, null, 4));
+    }
 
-    res.json({ counter: counter * multiply })
+    console.log(notes)
+
+    return res.json(notes);
 })
 
-// app.post('/post', function (req, res) {
 
-//     const body = {};
+app.get('/notes', function (req, res) {
 
-//     req.body['key3'] = 'value 3';
-
-//     res.send(req.body)
-// })
-
-app.post('/post', function (req, res) {
-    const body = {};
-    body['key'] = req.body['key2'];
-    body['key2'] = req.body['key'];
-    console.log("", req.body)
-    res.send(body)
+    return res.json(notes);
 })
 
 app.listen(3000)
+
+// When the app launches get the data from the JSON file and set it into the notes array, if the file is empty or does not exist
+// set an empty array 
