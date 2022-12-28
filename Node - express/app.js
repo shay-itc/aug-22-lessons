@@ -1,9 +1,15 @@
 const express = require('express');
 const cors = require("cors");
-// const bodyParser = require("body-parser");
+const Ajv = require('ajv');
 const fs = require('fs');
 const app = express()
 
+const ajv = new Ajv();
+
+app.use(function (req, res, next) {
+    console.log('Mid');
+    next();
+});
 app.use(cors());
 app.use(express.json());
 
@@ -15,19 +21,43 @@ try {
     console.log(e)
 }
 
-app.post('/note', function (req, res) {
+const newNoteSchema = {
+    type: "object",
+    properties: {
+        subject: { type: 'string', minLength: 5 },
+        note: { type: 'string', minLength: 5 },
+    },
+    required: ['subject', 'note']
+}
+const newNoteValidation = ajv.compile(newNoteSchema);
+
+function validateInput(validationSchema) {
+
+    return function (req, res, next) {
+
+        const isValid = validationSchema(req.body);
+        if (!isValid) {
+            return res.status(400).json({ message: newNoteValidation.errors[0].message })
+        }
+
+        next();
+    }
+}
+
+function NewNote(req, res) {
+
+    console.log('Inside the route', req['my-custom-something'])
 
     const { subject, note } = req.body;
 
-    if (subject && note && subject.length > 0 && note.length > 0) {
-        notes.push({ subject, note });
-        fs.writeFileSync('./db.json', JSON.stringify(notes, null, 4));
-    }
+    notes.push({ subject, note });
+    fs.writeFileSync('./db.json', JSON.stringify(notes, null, 4));
 
     console.log(notes)
 
     return res.json(notes);
-})
+}
+app.post('/note', validateInput(newNoteValidation), NewNote)
 
 
 app.get('/notes', function (req, res) {

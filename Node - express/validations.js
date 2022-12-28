@@ -1,5 +1,4 @@
 const Ajv = require('ajv');
-const { addListener } = require('nodemon');
 const ajv = new Ajv();
 
 const myObject = {
