@@ -1,66 +1,48 @@
 const express = require('express');
 const app = express();
-const Ajv = require('ajv');
-const fs = require('fs');
-const ajv = new Ajv();
+const MoviesClass = require('./moviesClass');
 
-const newMovieSchema = {
-    type: "object",
-    properties: {
-        name: { type: "string" },
-        year: { type: "integer", maximum: new Date().getFullYear(), minimum: (new Date().getFullYear() - 100) },
-        genres: { type: "array" },
-        poster: { type: "string" }
-    },
-    required: ['name', 'year', 'genres', 'poster']
-}
-
-const newMovieValidation = ajv.compile(newMovieSchema);
+const moviesClass = new MoviesClass();
 
 app.use(express.json());
 
-let moviesArray = [];
-let fileContent;
-try {
-    fileContent = fs.readFileSync('./movies.json');
-    moviesArray = JSON.parse(fileContent);
-} catch (e) {
-    try {
-        fs.writeFileSync('./movies.json.backup', fileContent);
-    } catch (e) { }
-    // console.log(e)
-}
 
-app.post('/movie', function (req, res) {
+app.post('/movie', moviesClass.CreateMovie)
 
-    const isValid = newMovieValidation(req.body);
-    if (!isValid) {
-        return res.status(400).json(newMovieValidation.errors);
-    }
+// app.get('/movies/search/:term', function (req, res) {
 
-    let id = 1;
-    if (moviesArray.length > 0) {
-        id = moviesArray[moviesArray.length - 1].id + 1;
-    }
+//     const { term } = req.params;
 
-    console.log(id);
+//     console.log(term)
 
-    moviesArray.push({
-        id: id,
-        name: req.body.name,
-        year: req.body.year,
-        genres: req.body.genres,
-        poster: req.body.poster
-    })
-    try {
-        console.log('moviesArray', moviesArray)
-        fs.writeFileSync('./movies.json', JSON.stringify(moviesArray))
-    } catch (err) {
-        console.log(err)
-        return res.status(500).json();
-    }
+//     const resultsArray = moviesArray.filter((movie) => movie.name.toLowerCase().includes(term.toLowerCase()));
 
-    return res.status(200).json({ success: true, id: id });
-})
+//     return res.json({
+//         results: resultsArray
+//     });
+// })
+
+// app.get('/movie/:id', function (req, res) {
+
+//     const { id } = req.params;
+
+//     const results = moviesArray.filter((movie) => movie.id === parseInt(id));
+
+//     return res.json({ movie: results.length > 0 ? results[0] : null })
+// })
+
+// app.get('/movies/genre/:genre', function (req, res) {
+
+//     const { genre } = req.params;
+
+//     const resultsArray = moviesArray.filter((movie) => movie.genres.includes(genre))
+
+//     return res.json({ results: resultsArray });
+// })
+
+// Create a new route GET /movies/genre/:genre  /movies/genre/action
+// And return a list with all movies in this genre
+
+
 
 app.listen(3000)
