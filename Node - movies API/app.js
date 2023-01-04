@@ -1,47 +1,34 @@
 const express = require('express');
 const app = express();
 const MoviesClass = require('./moviesClass');
+const { newMovieValidation } = require('./validations')
 
 const moviesClass = new MoviesClass();
 
 app.use(express.json());
+app.use((req, res, next) => { console.log('All routes'); next(); })
 
+app.post('/movie', (req, res, next) => {
 
-app.post('/movie', moviesClass.CreateMovie)
+    const isValid = newMovieValidation(req.body);
+    if (!isValid) {
+        return res.status(400).json(newMovieValidation.errors);
+    }
 
-// app.get('/movies/search/:term', function (req, res) {
+    next();
 
-//     const { term } = req.params;
+}, moviesClass.CreateMovie)
 
-//     console.log(term)
+app.get('/movies/search/:term', moviesClass.SearchMovieByTerm)
 
-//     const resultsArray = moviesArray.filter((movie) => movie.name.toLowerCase().includes(term.toLowerCase()));
+app.get('/movie/:id', (req, res, next) => {
 
-//     return res.json({
-//         results: resultsArray
-//     });
-// })
+    console.log(req.params)
 
-// app.get('/movie/:id', function (req, res) {
+    next();
+}, moviesClass.GetMovieById)
 
-//     const { id } = req.params;
-
-//     const results = moviesArray.filter((movie) => movie.id === parseInt(id));
-
-//     return res.json({ movie: results.length > 0 ? results[0] : null })
-// })
-
-// app.get('/movies/genre/:genre', function (req, res) {
-
-//     const { genre } = req.params;
-
-//     const resultsArray = moviesArray.filter((movie) => movie.genres.includes(genre))
-
-//     return res.json({ results: resultsArray });
-// })
-
-// Create a new route GET /movies/genre/:genre  /movies/genre/action
-// And return a list with all movies in this genre
+app.get('/movies/genre/:genre', moviesClass.GetMoviesByGenre)
 
 
 

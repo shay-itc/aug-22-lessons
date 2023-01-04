@@ -3,9 +3,10 @@ const { newMovieValidation } = require('./validations')
 
 class MoviesClass {
 
+    moviesArray = [];
+
     constructor() {
 
-        this.moviesArray = [];
         let fileContent;
         try {
             fileContent = fs.readFileSync('./movies.json');
@@ -20,11 +21,10 @@ class MoviesClass {
 
     CreateMovie = (req, res) => {
 
-        console.log(this)
-        const isValid = newMovieValidation(req.body);
-        if (!isValid) {
-            return res.status(400).json(newMovieValidation.errors);
-        }
+        // const isValid = newMovieValidation(req.body);
+        // if (!isValid) {
+        //     return res.status(400).json(newMovieValidation.errors);
+        // }
 
         let id = 1;
         if (this.moviesArray.length > 0) {
@@ -48,6 +48,35 @@ class MoviesClass {
         }
 
         return res.status(200).json({ success: true, id: id });
+    }
+
+    SearchMovieByTerm = (req, res) => {
+
+        const { term } = req.params;
+
+        const resultsArray = this.moviesArray.filter((movie) => movie.name.toLowerCase().includes(term.toLowerCase()));
+
+        return res.json({
+            results: resultsArray
+        });
+    }
+
+    GetMovieById = (req, res) => {
+
+        const { id } = req.params;
+
+        const results = this.moviesArray.filter((movie) => movie.id === parseInt(id));
+
+        return res.json({ movie: results.length > 0 ? results[0] : null })
+    }
+
+    GetMoviesByGenre = (req, res) => {
+
+        const { genre } = req.params;
+
+        const resultsArray = this.moviesArray.filter((movie) => movie.genres.includes(genre))
+
+        return res.json({ results: resultsArray });
     }
 }
 
