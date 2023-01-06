@@ -10,6 +10,8 @@ function AuthContextProvider({ children }) {
     const [authApiKey, setAuthApiKey] = useState('');
     const [authName, setAuthName] = useState('');
 
+    console.log('authApiKey', authApiKey)
+
     async function getFromForage() {
         const creds = await localForage.getItem('movie-search-credentials');
         if (creds) {

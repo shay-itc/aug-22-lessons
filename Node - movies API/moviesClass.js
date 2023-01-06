@@ -1,9 +1,11 @@
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 const { newMovieValidation } = require('./validations')
 
 class MoviesClass {
 
     moviesArray = [];
+    #privateKey = 'mymovieapp';
 
     constructor() {
 
@@ -17,6 +19,19 @@ class MoviesClass {
             } catch (e) { }
             // console.log(e)
         }
+    }
+
+    Login = (req, res) => {
+
+        const { username, password } = req.body;
+
+        if (username == 'itcstudent' && password == 'fullstack') {
+            const token = jwt.sign({ username }, this.#privateKey);
+
+            return res.json({ token: token })
+        }
+
+        return res.status(401).send();
     }
 
     CreateMovie = (req, res) => {
@@ -57,7 +72,8 @@ class MoviesClass {
         const resultsArray = this.moviesArray.filter((movie) => movie.name.toLowerCase().includes(term.toLowerCase()));
 
         return res.json({
-            results: resultsArray
+            Response: 'True',
+            Search: resultsArray
         });
     }
 

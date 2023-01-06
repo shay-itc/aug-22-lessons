@@ -1,7 +1,13 @@
 export async function getMovies(apiKey, movieName) {
     try {
-        const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&type=movie&s=${movieName}`)
+        const response = await fetch(`http://localhost:3000/movies/search/${movieName}`, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`
+            }
+        })
         const results = await response.json();
+
+        console.log('results', results)
 
         if (results.Response == 'True') {
             return {

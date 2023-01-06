@@ -31,9 +31,9 @@ function Search() {
         return movieList.map((movie, index) => {
             return (<MovieItem
                 key={`movie-item-${index}`}
-                title={movie.Title}
-                image={movie.Poster}
-                movieId={movie.imdbID} />)
+                title={movie.name}
+                image={movie.poster}
+                movieId={movie.id} />)
         })
     }
 

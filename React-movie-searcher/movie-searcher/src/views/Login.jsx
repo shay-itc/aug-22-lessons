@@ -5,28 +5,57 @@ import Button from '../components/Button';
 import { AuthContext } from '../context/AuthContext';
 import './Login.css';
 
+
+
 function Login() {
 
     const { authApiKey, setAuthApiKey, authName, setAuthName } = useContext(AuthContext);
 
-    console.log('authApiKey', authApiKey, 'authName', authName)
-
     const [name, setName] = useState(authName);
-    const [apiKey, setApiKey] = useState(authApiKey);
+    const [password, setPassword] = useState();
 
     const navigate = useNavigate();
 
-    const setAuthDetails = () => {
-        setAuthApiKey(apiKey)
-        setAuthName(name)
+    const setAuthDetails = async () => {
 
-        navigate('/search/default')
+        try {
+            const repsonse = await fetch('http://localhost:3000/login', {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username: name, password: password })
+            })
+
+            switch (repsonse.status) {
+                case 401:
+                    alert('Wrong username or password')
+                    break;
+                case 500:
+                    alert('Internal error')
+                    break;
+                case 200:
+                    const result = await repsonse.json();
+                    setAuthName(name)
+                    setAuthApiKey(result.token)
+
+                    navigate('/search/default')
+                    break;
+            }
+        } catch (e) {
+
+        }
+
+
+        // Change ApiKey field to password
+        // When submitting send a fetch request to the new /login route and print the token received
+
     }
 
-    useEffect(() => {
-        setName(authName);
-        setApiKey(authApiKey);
-    }, [authName, authApiKey])
+    // useEffect(() => {
+    //     setName(authName);
+    //     setApiKey(authApiKey);
+    // }, [authName, authApiKey])
 
 
     return (
@@ -40,11 +69,11 @@ function Login() {
                         setName(eventValue)
                     }} />
 
-                <TextInput label="API Key"
-                    defaultValue={apiKey}
-                    type="text"
+                <TextInput label="Password"
+                    defaultValue={password}
+                    type="password"
                     onInputChange={(eventValue) => {
-                        setApiKey(eventValue)
+                        setPassword(eventValue)
                     }} />
 
                 <Button type="primary" text="Login!" onClick={() => {
