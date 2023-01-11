@@ -25,8 +25,12 @@ class MoviesClass {
 
         const { username, password } = req.body;
 
+        console.log('username, password', username, password);
+
         if (username == 'itcstudent' && password == 'fullstack') {
             const token = jwt.sign({ username }, this.#privateKey);
+
+            console.log('token', token)
 
             return res.json({ token: token })
         }
