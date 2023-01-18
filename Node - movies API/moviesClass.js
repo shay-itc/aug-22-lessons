@@ -98,6 +98,37 @@ class MoviesClass {
 
         return res.json({ results: resultsArray });
     }
+
+    UpdateMovie = (req, res) => {
+
+        const { id, name, year, genres, poster } = req.body;
+
+        for (let i = 0; i < this.moviesArray.length; i++) {
+            if (this.moviesArray[i].id == id) {
+                if (name) {
+                    this.moviesArray[i].name = name;
+                }
+                if (year) {
+                    this.moviesArray[i].year = year;
+                }
+                if (genres) {
+                    this.moviesArray[i].genres = genres;
+                }
+                if (poster) {
+                    this.moviesArray[i].poster = poster;
+                }
+            }
+        }
+
+        try {
+            fs.writeFileSync('./movies.json', JSON.stringify(this.moviesArray))
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json();
+        }
+
+        return res.send();
+    }
 }
 
 module.exports = MoviesClass;

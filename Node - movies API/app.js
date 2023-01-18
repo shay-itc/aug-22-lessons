@@ -2,11 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const MoviesClass = require('./moviesClass');
-const { newMovieValidation } = require('./validations')
+const { newMovieValidation } = require('./validations');
+const { ok } = require('assert');
+const { response } = require('express');
+const { isAbsolute } = require('path');
 
 function logger(severity, text) {
 
@@ -27,7 +31,7 @@ const uploadsDirectory = 'uploads';
 
 app.use(cors());
 app.use(express.json());
-app.use(authenticate)
+// app.use(authenticate)
 app.use('/' + uploadsDirectory, express.static(uploadsDirectory));
 
 
@@ -90,6 +94,10 @@ function authenticate(req, res, next) {
 
 }
 
+app.get('/file', (req, res) => {
+    return res.sendFile(path.join(__dirname, './uploads/1673600729347.0918postertest.jpg'));
+})
+
 app.post('/login', moviesClass.Login)
 
 
@@ -116,4 +124,35 @@ app.get('/movie/:id', (req, res, next) => {
 app.get('/movies/genre/:genre', moviesClass.GetMoviesByGenre)
 
 
+app.post('/movie/update', moviesClass.UpdateMovie)
+
+
 app.listen(3000)
+
+
+// domain1.com -> doamin2.com
+
+// about.html 301 -> /about
+// contact.html 301 -> /contact
+// something.html 301 -> /something
+
+// /about
+// /contact
+// /something
+
+
+// 200 - ok, 
+// 2xx - positive response
+
+// 3xx - redirection
+// 301 - permanent redirection
+// 302 - temp redirection
+
+// 4xx - request error
+// 400 - bad request 
+// 401 - unautherized 
+// 403 - forbidden 
+// 404 - not found
+
+// 5xx - server errors
+// 500 - internal server error
