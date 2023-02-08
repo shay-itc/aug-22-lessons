@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongodb");
+
 let collection;
 
 module.exports = class UsersDAO {
@@ -27,5 +29,10 @@ module.exports = class UsersDAO {
     static async updateUser(userData) {
 
         await collection.updateOne({ _id: userData._id }, { $set: { userData } })
+    }
+
+    // create a new method called getUserById
+    static async getUserById(userId) {
+        return await collection.findOne({ _id: new ObjectId(userId) });
     }
 }

@@ -1,7 +1,7 @@
 const sha256 = require('js-sha256');
 const jwt = require('jsonwebtoken');
 const UsersDAO = require('../models/UsersDAO');
-const { RegisterValidation } = require('../validations/UsersValidations');
+const { RegisterValidation, LoginValidation } = require('../validations/UsersValidations');
 
 module.exports = class UsersController {
 
@@ -49,8 +49,16 @@ module.exports = class UsersController {
     static async Login(req, res) {
         try {
 
-            const user = await UsersDAO.getUserByUsername(req.body.username);
+            const validRequest = LoginValidation(req.body)
 
+            if (!validRequest) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please fill all fields'
+                })
+            }
+
+            const user = await UsersDAO.getUserByUsername(req.body.username);
             if (!user || (user.password != sha256(req.body.password))) {
                 return res.status(400).json({
                     success: false,
@@ -58,10 +66,12 @@ module.exports = class UsersController {
                 })
             }
 
+            await UsersDAO.getUserById("63e3d3551acd7e853675b95d")
+
             const token = jwt.sign({
                 user_id: user._id,
                 username: user.username
-            }, '12345678');
+            }, process.env.JWT_SECRET);
 
             return res.json({
                 token: token
