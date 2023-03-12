@@ -1,0 +1,20 @@
+button {
+    color: #fff;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.increment {
+    background-color: #00a928;
+    border: 1px solid #007c1d
+}
+
+.decrement {
+    background-color: #f59535;
+    border: 1px solid #b65b00
+}
+
+.delete {
+    background-color: #d93d3d;
+    border: 1px solid #9f0000
+}
