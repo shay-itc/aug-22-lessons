@@ -19,7 +19,7 @@ module.exports = class UsersController {
             console.log(`Error in TasksController.CreateTask ${e}`);
             return res.status(500).json({
                 success: false,
-                message: 'unknown error'
+                message: e
             });
         }
     }

@@ -4,6 +4,7 @@ const UsersDAO = require('../models/UsersDAO')
 module.exports.AuthMiddleware = async function AuthMiddleware(req, res, next) {
 
     try {
+
         let token = req.headers['authorization'];
 
         if (!token) {
@@ -28,6 +29,7 @@ module.exports.AuthMiddleware = async function AuthMiddleware(req, res, next) {
 
         next();
     } catch (e) {
+        console.log(e)
         return res.status(500).send();
     }
 }
